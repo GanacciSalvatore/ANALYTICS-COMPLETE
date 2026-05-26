@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Analytics Lab Tasks — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:     #050a0e;
+  --panel:  #0b1520;
+  --panel2: #0d1c2e;
+  --accent: #00d4ff;
+  --accent2:#0095b3;
+  --accent3:#00ffb3;
+  --accent4:#ff6b35;
+  --text:   #cce8f4;
+  --text2:  #6ea8c8;
+  --text3:  #3a6a88;
+  --border: #0e2a3d;
+  --border2:#1a4060;
+  --mono:   'Share Tech Mono', monospace;
+  --head:   'Rajdhani', sans-serif;
+  --body:   'Exo 2', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:9999}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+.grid-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,148,177,.07) 0%,transparent 70%)}
+.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 24px 72px}
+header{padding:44px 0 28px;border-bottom:1px solid var(--border);position:relative}
+.pre-tag{font-family:var(--mono);font-size:11px;color:var(--accent3);letter-spacing:3px;margin-bottom:8px}
+.main-title{font-family:var(--head);font-size:clamp(30px,5.5vw,52px);font-weight:700;color:#fff;letter-spacing:3px;text-transform:uppercase;line-height:1.05}
+.main-title span{color:var(--accent)}
+.sub-title{font-family:var(--mono);font-size:12px;color:var(--text2);margin-top:10px;letter-spacing:1px}
+.hdr-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.badge{font-family:var(--mono);font-size:10px;padding:4px 12px;border:1px solid;letter-spacing:2px;text-transform:uppercase}
+.b-cyan{border-color:var(--accent);color:var(--accent)}
+.b-green{border-color:var(--accent3);color:var(--accent3)}
+.b-orange{border-color:var(--accent4);color:var(--accent4)}
+.hdr-right{position:absolute;top:44px;right:0;font-family:var(--mono);font-size:10px;color:var(--text3);text-align:right;line-height:2}
+.statusbar{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--text3)}
+.si{display:flex;align-items:center;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;animation:blink 2s ease-in-out infinite}
+.dg{background:var(--accent3);box-shadow:0 0 6px var(--accent3)}
+.dc{background:var(--accent);box-shadow:0 0 6px var(--accent)}
+.do{background:var(--accent4);box-shadow:0 0 6px var(--accent4)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.sec-label{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin:36px 0 20px;display:flex;align-items:center;gap:14px}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+.task-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:22px}
+@media(max-width:960px){.task-grid{grid-template-columns:1fr}}
+.task-card{background:var(--panel);border:1px solid var(--border2);position:relative;overflow:hidden;transition:border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
+.task-card:hover{border-color:var(--accent);box-shadow:0 0 28px rgba(0,212,255,.1)}
+.task-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent3),transparent);opacity:0;transition:opacity .25s}
+.task-card:hover::before{opacity:1}
+.task-card::after{content:'';position:absolute;bottom:0;right:0;width:14px;height:14px;border-bottom:1px solid var(--accent2);border-right:1px solid var(--accent2);opacity:.5}
+.task-num-badge{font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:4px 12px;background:rgba(5,10,14,.85);border:1px solid var(--accent);color:var(--accent);display:inline-block;margin:16px 16px 10px;align-self:flex-start}
+.thumb-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 16px 14px}
+.thumb-item{position:relative;aspect-ratio:16/10;background:var(--panel2);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.thumb-item:hover{border-color:var(--accent);box-shadow:0 0 10px rgba(0,212,255,.2)}
+.thumb-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s,opacity .25s;opacity:.8}
+.thumb-item:hover img{transform:scale(1.06);opacity:1}
+.thumb-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--text3);font-family:var(--mono);font-size:8px;letter-spacing:1px;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,212,255,.012) 8px,rgba(0,212,255,.012) 16px)}
+.thumb-label{position:absolute;bottom:0;left:0;right:0;font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:1px;padding:3px 6px;background:rgba(5,10,14,.75);text-align:center}
+.thumb-item::after{content:'⊕';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);font-size:20px;color:var(--accent);opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;text-shadow:0 0 10px var(--accent)}
+.thumb-item:hover::after{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.card-body{padding:0 18px 14px;flex:1;display:flex;flex-direction:column;gap:8px}
+.card-title{font-family:var(--head);font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase}
+.card-desc{font-family:var(--body);font-size:13px;color:var(--text2);line-height:1.65;flex:1}
+.card-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+.meta-tag{font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:3px 8px;border:1px solid var(--border2);color:var(--text3);text-transform:uppercase}
+.card-footer{padding:0 18px 18px;display:flex;gap:8px;flex-wrap:wrap}
+.btn-dl{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:10px;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;background:transparent;border:1px solid var(--accent);color:var(--accent);cursor:pointer;transition:all .2s;min-width:120px}
+.btn-dl:hover{background:rgba(0,212,255,.1);box-shadow:0 0 14px rgba(0,212,255,.2)}
+.btn-dl svg{width:13px;height:13px;flex-shrink:0}
+.btn-ss{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:10px;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;background:transparent;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;min-width:120px}
+.btn-ss:hover{border-color:var(--accent3);color:var(--accent3);background:rgba(0,255,179,.05)}
+.btn-ss svg{width:13px;height:13px;flex-shrink:0}
+#lightbox{display:none;position:fixed;inset:0;z-index:10000;background:rgba(3,7,11,.95);align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:20px}
+#lightbox.open{display:flex}
+#lb-img{max-width:90vw;max-height:78vh;border:1px solid var(--accent2);box-shadow:0 0 40px rgba(0,212,255,.2);object-fit:contain;display:block}
+.lb-no-img{font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:2px;padding:60px 40px;border:1px dashed var(--border2);text-align:center}
+.lb-controls{display:flex;align-items:center;gap:16px}
+.lb-btn{font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:8px 20px;background:transparent;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s}
+.lb-btn:hover{border-color:var(--accent);color:var(--accent)}
+#lb-counter{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:2px;min-width:60px;text-align:center}
+#lb-caption{font-family:var(--mono);font-size:11px;color:var(--text2);letter-spacing:1px;text-align:center}
+.lb-close{position:fixed;top:20px;right:24px;font-family:var(--mono);font-size:13px;color:var(--text2);cursor:pointer;letter-spacing:2px;padding:6px 12px;border:1px solid var(--border2);transition:all .2s;background:var(--panel)}
+.lb-close:hover{color:var(--accent4);border-color:var(--accent4)}
+.ticker{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:1px;overflow:hidden;border-top:1px solid var(--border);padding:7px 0;white-space:nowrap;margin-top:44px}
+.ticker-inner{display:inline-block;animation:tick 30s linear infinite}
+@keyframes tick{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.foot-l{font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.9}
+.foot-r{font-family:var(--mono);font-size:10px;color:var(--text3)}
+@media(max-width:600px){.hdr-right{display:none}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div id="lightbox">
+  <div class="lb-close" onclick="closeLightbox()">&#10005; CLOSE</div>
+  <img id="lb-img" src="" alt="" style="display:none"/>
+  <div id="lb-no-img" class="lb-no-img" style="display:none">// NO IMAGE SET YET</div>
+  <div id="lb-caption"></div>
+  <div class="lb-controls">
+    <button class="lb-btn" onclick="lbNav(-1)">&#8592; PREV</button>
+    <span id="lb-counter">1 / 3</span>
+    <button class="lb-btn" onclick="lbNav(1)">NEXT &#8594;</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="pre-tag">&gt; SYS_INIT :: ANALYTICS_LAB // PORTFOLIO SHOWCASE</div>
+    <div class="main-title">Lab Task<br><span>Portfolio</span></div>
+    <div class="sub-title">// DATA ANALYTICS — MIDTERMS &amp; FINALS 2025–2026</div>
+    <div class="hdr-badges">
+      <span class="badge b-cyan">DATA ANALYTICS</span>
+      <span class="badge b-green">BSCS</span>
+      <span class="badge b-orange">9 TASKS</span>
+    </div>
+    <div class="hdr-right">SEM: 2ND<br>A.Y. 2025–2026<br>STATUS: ACTIVE</div>
+  </header>
+
+  <div class="statusbar">
+    <div class="si"><span class="dot dg"></span> PORTFOLIO ONLINE</div>
+    <div class="si"><span class="dot dc"></span> <span id="clock">--:--:--</span></div>
+    <div class="si"><span class="dot do"></span> 9 TASKS LOADED</div>
+  </div>
+
+  <div class="sec-label" style="margin-top:36px;">// 01 &nbsp; LAB TASKS</div>
+
+  <div class="task-grid">
+
+    <!-- TASK 1 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_01</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(task1imgs,0)">
+          <img src="Capture1.png" alt="Task 1 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task1imgs,1)">
+          <img src="Capture2.png" alt="Task 1 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task1imgs,2)">
+          <img src="Capture3.png" alt="Task 1 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">MIDTERM TASK 1: Data Cleaning and Preparation using Excel</div>
+        <div class="card-desc">This project showcases the process of data normalization and cleaning applied to a transactional database. The dataset includes multiple interconnected tables, each structured to enhance data organization and minimize redundancy.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://drive.google.com/file/d/1hh08aIfNvGK_yLIWAo_ia4v-56SvP_lA/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://docs.google.com/spreadsheets/d/1rHmDkAS6CdCvWRcYcpq7Ud3YnfrKCnhg/export?format=xlsx" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD FILE
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 2 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_02</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(task2imgs,0)">
+          <img src="RAW DATA IN MIDTERM TASK 2.png" alt="Task 2 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task2imgs,1)">
+          <img src="clean data in midterm 2.png" alt="Task 2 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task2imgs,2)">
+          <img src="data model in midterm 2.png" alt="Task 2 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">MIDTERM TASK 2: Data Preparation and Modeling using Power Query</div>
+        <div class="card-desc">This task involves cleaning and transforming raw data using Power Query in Microsoft Excel. It includes removing errors, organizing data, and ensuring consistency using filtering, sorting, and merging queries to create a structured data model represented as an ERD.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://drive.google.com/file/d/13iv6CyN_NJGGEfinTRGQ3GLeybVIytr7/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://drive.google.com/uc?export=download&id=1X4sBpCGkwX1nsrPdE5kIZ1MOAtTatcCE" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD ZIP FILES
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 3 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_03</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(task3imgs,0)">
+          <img src="RAW DATA IN PRACTICE TASK 2.png" alt="Task 3 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task3imgs,1)">
+          <img src="Clean Data in Practice Task 2.png" alt="Task 3 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task3imgs,2)">
+          <img src="Coca cola design.png" alt="Task 3 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">PRACTICE TASK 2: Demo Data Analysis</div>
+        <div class="card-desc">This presents a data analysis of sales performance, including KPIs such as total sales, average operating profit, and sales distribution across retailers. It includes year-to-year comparisons and chart visualizations for better interpretation of sales trends.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://drive.google.com/file/d/1MJqJJBB3ZIIS6pVsg109a0-UgV9jDNOx/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://docs.google.com/spreadsheets/d/1NpNtmMA_5njYwjsphQGJh4XWx05QihsH/export?format=xlsx" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD FILE
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 4 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_04</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(task4imgs,0)">
+          <img src="RAW DATA IN PERFORMANCE TASK 4.png" alt="Task 4 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task4imgs,1)">
+          <img src="CLEAN DATA IN PERFORMANCE 4.png" alt="Task 4 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(task4imgs,2)">
+          <img src="data model in practice 4.png" alt="Task 4 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Practice Task 4: Data Cleaning and Prep using Power Query</div>
+        <div class="card-desc">In this task, I used Excel to perform data cleaning and preparation on the dataset using Power Query and other Excel tools. The process involved organizing, correcting, and refining the data to ensure it is accurate, consistent, and ready for analysis.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://drive.google.com/file/d/1CCJHsqTjljQdpWbnMu0B0mjJJ3Nlvbob/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://drive.google.com/uc?export=download&id=1jv8rAAGxFqbDKs1Xc1yJ073D73rZB8oH" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD ZIP FILES
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 5 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_05</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(finalprac1,0)">
+          <img src="final practice 1.png" alt="Finals Prac 1 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finalprac1,1)">
+          <img src="final practice (8).png" alt="Finals Prac 1 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finalprac1,2)">
+          <img src="final task 11.png" alt="Finals Prac 1 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Finals Practice Task 01: Data Preparation and EDA using MySQL</div>
+        <div class="card-desc">In this task, we follow the instructions on how to perform data preparation and exploratory data analysis using MySQL.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://docs.google.com/document/d/1x930AyOH8qVv3Vg1IxS_ZKAIpePhaotI/edit?usp=drive_link&ouid=113364079367716906271&rtpof=true&sd=true" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://drive.google.com/file/d/1VkftOJ3sQFFym7KfFF1FolIStpDEt-QT/view?usp=sharing" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD ZIP FILES
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 6 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_06</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(finaltask2,0)">
+          <img src="finaltask2_Capture1.png" alt="Finals Task 2 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finaltask2,1)">
+          <img src="finaltask2_Capture2 (1).png" alt="Finals Task 2 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finaltask2,2)">
+          <img src="finaltask2_Capture2 (1).png" alt="Finals Task 2 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Finals Task 2: Navigating Power BI</div>
+        <div class="card-desc">This task explains the workflow and navigation process in Microsoft Power BI. The activity includes data acquisition, data preparation, data modeling using Star Schema, creating DAX measures and calculated columns, and building visual dashboards for analysis.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://docs.google.com/document/d/1kAGwOCocw2XMkeJEUg69Dbz1ObbiIW2k/edit?usp=drive_link&ouid=113364079367716906271&rtpof=true&sd=true" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://drive.google.com/file/d/1GAsRoyAElMhvWH7PZU5mzgKvI2hZ21Zt/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD ZIP FILES
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 7 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_07</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(finaltask3,0)">
+          <img src="output 1 in task 3.png" alt="Finals Task 3 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finaltask3,1)">
+          <img src="output 2 in task 3.png" alt="Finals Task 3 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finaltask3,2)">
+          <img src="output 3 in task 3.png" alt="Finals Task 3 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Finals Task 3: Using Time Intelligence Function</div>
+        <div class="card-desc">In this lab activity, students create DAX measures using Time Intelligence functions in Power BI Desktop. The activity focuses on manipulating filter contexts involving dates and analyzing sales performance over time.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://docs.google.com/document/d/1opEgU5dcxpSR9AC9eg_ngvMWaiUeIRex/edit?usp=drive_link&ouid=113364079367716906271&rtpof=true&sd=true" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://drive.google.com/file/d/1YWDioUNoNQ1BUGcISrG__tEWCQBg8reb/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD ZIP FILES
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 8 -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_08</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(finaltask4,0)">
+          <img src="output 1 in task 4.png" alt="Finals Task 4 Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finaltask4,1)">
+          <img src="output 2 in task 4.png" alt="Finals Task 4 Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(finaltask4,2)">
+          <img src="output 3 in task 4.png" alt="Finals Task 4 Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Finals Lab Task 4: Designing Interactive Reports in Power BI</div>
+        <div class="card-desc">This laboratory activity focuses on designing a three-page report in Microsoft Power BI. The task includes configuring report visuals, syncing slicers, formatting dashboards, and publishing reports to the Power BI Service.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-ss" href="https://docs.google.com/document/d/1h0sW2kLr336YhZ0LFvdZ1dVsMlzMs8oy/edit?usp=drive_link&ouid=113364079367716906271&rtpof=true&sd=true" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>PDF OUTPUT
+        </a>
+        <a class="btn-dl" href="https://drive.google.com/file/d/1Eq3VtvZ4F8yZ7PGEPuU8uayf_kkCPtLW/view?usp=drive_link" target="_blank">
+          <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 11h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>DOWNLOAD ZIP FILES
+        </a>
+      </div>
+    </div>
+
+    <!-- TASK 9 — Group Activity -->
+    <div class="task-card">
+      <div class="task-num-badge">TASK_09</div>
+      <div class="thumb-row">
+        <div class="thumb-item" onclick="openLightbox(groupact,0)">
+          <img src="group 1.png" alt="Group Activity Img 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_01</div>
+          <div class="thumb-label">IMG_01</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(groupact,1)">
+          <img src="group 2.png" alt="Group Activity Img 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_02</div>
+          <div class="thumb-label">IMG_02</div>
+        </div>
+        <div class="thumb-item" onclick="openLightbox(groupact,2)">
+          <img src="group 3.png" alt="Group Activity Img 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="thumb-ph" style="display:none"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="1" stroke="#1a4060" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 17l4-6 4 4 3-3 4 5" stroke="#1a4060" stroke-width="1" stroke-linejoin="round"/><circle cx="7" cy="8" r="2" stroke="#1a4060" stroke-width="1"/></svg>IMG_03</div>
+          <div class="thumb-label">IMG_03</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Group Activity Final Project</div>
+        <div class="card-desc">This final project shows the full data pipeline: Data Collection, Cleaning, EDA, Data Modeling, Visualization, Dashboards, and Key Insights.</div>
+        <div class="card-meta"><span class="meta-tag">ANALYTICS</span><span class="meta-tag">GROUP</span></div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-dl" href="https://markreinerpanlilio.github.io/DATA_ANALYTICS_PROJECT/?fbclid=IwY2xjawSCR5RleHRuA2FlbQIxMABicmlkETFMUDVDcEhvNzJsbTVvemV1c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHr43u9aOKnOAf5xEPlk33AXHm2zLJN44tAFGa8yB2Gg5l4b0tSGmeTcL49dG_aem_JBOwl79pO93uUA3wMgYxBQ" target="_blank" style="flex:1">
+          <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4 6.5h5M4 4.5h5M4 8.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>VIEW PROJECT WEBSITE
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /task-grid -->
+
+  <div class="ticker">
+    <span class="ticker-inner">&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt; DATA_ANALYTICS_PORTFOLIO // LAB_TASKS_SHOWCASE // BSCS_DEPT // 9_TASKS_COMPLETED // A.Y._2025-2026 // CLICK_THUMBNAILS_TO_ENLARGE // &nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt; DATA_ANALYTICS_PORTFOLIO // LAB_TASKS_SHOWCASE //</span>
+  </div>
+
+  <footer>
+    <div class="foot-l">DATA ANALYTICS — LAB TASK PORTFOLIO<br>INFORMATION TECHNOLOGY DEPT. — 2ND SEM 2025–2026</div>
+    <div class="foot-r">&gt; IT STUDENT_</div>
+  </footer>
+
+</div>
+
+<script>
+  function tick(){document.getElementById('clock').textContent=new Date().toTimeString().slice(0,8)}
+  tick();setInterval(tick,1000);
+
+  const task1imgs = [
+    { src: 'Capture1.png', label: 'RAW DATA // IMG_01' },
+    { src: 'Capture2.png', label: 'CLEAN DATA // IMG_02' },
+    { src: 'Capture3.png', label: 'DATA MODEL // IMG_03' }
+  ];
+  const task2imgs = [
+    { src: 'RAW DATA IN MIDTERM TASK 2.png', label: 'RAW DATA // IMG_01' },
+    { src: 'clean data in midterm 2.png', label: 'CLEAN DATA // IMG_02' },
+    { src: 'data model in midterm 2.png', label: 'DATA MODEL // IMG_03' }
+  ];
+  const task3imgs = [
+    { src: 'RAW DATA IN PRACTICE TASK 2.png', label: 'RAW DATA // IMG_01' },
+    { src: 'Clean Data in Practice Task 2.png', label: 'CLEAN DATA // IMG_02' },
+    { src: 'Coca cola design.png', label: 'DESIGN // IMG_03' }
+  ];
+  const task4imgs = [
+    { src: 'RAW DATA IN PERFORMANCE TASK 4.png', label: 'RAW DATA // IMG_01' },
+    { src: 'CLEAN DATA IN PERFORMANCE 4.png', label: 'CLEAN DATA // IMG_02' },
+    { src: 'data model in practice 4.png', label: 'DATA MODEL // IMG_03' }
+  ];
+  const finalprac1 = [
+    { src: 'final practice 1.png', label: 'OUTPUT 1 // IMG_01' },
+    { src: 'final practice (8).png', label: 'OUTPUT 2 // IMG_02' },
+    { src: 'final task 11.png', label: 'FINISHED // IMG_03' }
+  ];
+  const finaltask2 = [
+    { src: 'finaltask2_Capture1.png', label: 'OUTPUT 1 // IMG_01' },
+    { src: 'finaltask2_Capture2 (1).png', label: 'OUTPUT 2 // IMG_02' },
+    { src: 'finaltask2_Capture2 (1).png', label: 'OUTPUT 3 // IMG_03' }
+  ];
+  const finaltask3 = [
+    { src: 'output 1 in task 3.png', label: 'OUTPUT 1 // IMG_01' },
+    { src: 'output 2 in task 3.png', label: 'OUTPUT 2 // IMG_02' },
+    { src: 'output 3 in task 3.png', label: 'OUTPUT 3 // IMG_03' }
+  ];
+  const finaltask4 = [
+    { src: 'output 1 in task 4.png', label: 'OUTPUT 1 // IMG_01' },
+    { src: 'output 2 in task 4.png', label: 'OUTPUT 2 // IMG_02' },
+    { src: 'output 3 in task 4.png', label: 'OUTPUT 3 // IMG_03' }
+  ];
+  const groupact = [
+    { src: 'group 1.png', label: 'SLIDE 1 // IMG_01' },
+    { src: 'group 2.png', label: 'SLIDE 2 // IMG_02' },
+    { src: 'group 3.png', label: 'SLIDE 3 // IMG_03' }
+  ];
+
+  let currentImgs = [], currentIdx = 0;
+
+  function openLightbox(imgs, idx) {
+    currentImgs = imgs;
+    currentIdx = idx;
+    renderLb();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderLb() {
+    const img = currentImgs[currentIdx];
+    const el = document.getElementById('lb-img');
+    const ph = document.getElementById('lb-no-img');
+    el.src = img.src;
+    el.style.display = 'block';
+    ph.style.display = 'none';
+    el.onerror = function() {
+      el.style.display = 'none';
+      ph.style.display = 'block';
+    };
+    document.getElementById('lb-caption').textContent = img.label;
+    document.getElementById('lb-counter').textContent = (currentIdx + 1) + ' / ' + currentImgs.length;
+  }
+
+  function lbNav(dir) {
+    currentIdx = (currentIdx + dir + currentImgs.length) % currentImgs.length;
+    renderLb();
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>
